@@ -59,6 +59,9 @@ function run() {
     }
 
     processFolders(wwwPath);
+    ['cordova.js', 'cordova_plugins.js'].forEach(function (file) {
+      compress(path.join(wwwPath, file))
+    })
   });
 }
 
