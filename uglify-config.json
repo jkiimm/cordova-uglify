@@ -2,10 +2,8 @@
     "alwaysRun": false,
     "recursiveFolderSearch": true,
     "foldersToProcess": [
-        "js",
-        "css",
-        "img",
-        "build"
+        "cordova-js-src",
+        "plugins"
     ],
     "uglifyJsOptions": {
         "compress": {
