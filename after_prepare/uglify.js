@@ -10,6 +10,7 @@ var dependencyPath = path.join(process.cwd(), 'node_modules');
 var UglifyJS = require(path.join(dependencyPath, 'uglify-js'));
 var CleanCSS = require(path.join(dependencyPath, 'clean-css'));
 var ngAnnotate = require(path.join(dependencyPath, 'ng-annotate'));
+var babel = require(path.join(dependencyPath, '@babel/core'));
 
 // Process
 var rootDir = process.argv[2];
@@ -127,7 +128,13 @@ function compress(file) {
       res = ngAnnotate(String(fs.readFileSync(file, 'utf8')), {
         add: true
       });
-      result = UglifyJS.minify(res.src, hookConfig.uglifyJsOptions);
+
+      var es5 = babel.transformSync(res.src, {
+        presets: ['@babel/preset-env'],
+        sourceType: 'unambiguous'
+      })
+
+      result = UglifyJS.minify(es5.code, hookConfig.uglifyJsOptions);
       fs.writeFileSync(file, result.code, 'utf8'); // overwrite the original unminified file
       break;
 
